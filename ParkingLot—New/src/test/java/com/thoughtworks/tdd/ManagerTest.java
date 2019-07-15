@@ -15,7 +15,7 @@ public class ManagerTest {
     public void should_return_Ticket_when_parkCar_given_Car() {
 //given
         ParkingLot parkingLot1 = new ParkingLot();
-        ParkingLot parkingLot2 = new ParkingLot(4);
+        ParkingLot parkingLot2 = new ParkingLot();
         List<ParkingLot> managerParkingLots = new ArrayList<>();
         managerParkingLots.add(parkingLot1);
         managerParkingLots.add(parkingLot2);
@@ -30,8 +30,8 @@ public class ManagerTest {
 
 //then
         assertNotNull(ticket1);
-        assertThat(manager.getParkingLots().get(0).getStoreCars().size(), is(1));
-        assertThat(manager.getParkingLots().get(1).getStoreCars().size(), is(0));
+        assertThat(String.valueOf(manager.getParkingLots().get(0).getStoreCars().size()), is(1));
+        assertThat(String.valueOf(manager.getParkingLots().get(1).getStoreCars().size()), is(0));
         assertEquals(manager.getParkingLots().get(0), parkingBoy.getParkingLots().get(0));
     }
 
