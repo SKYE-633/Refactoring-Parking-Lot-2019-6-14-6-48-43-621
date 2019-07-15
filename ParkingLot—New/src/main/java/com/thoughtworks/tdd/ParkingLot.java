@@ -38,6 +38,14 @@ public class ParkingLot {
         }
         return null;
     }
+    public Car fetchCar(Ticket ticket) {
+            Car fetchCar = null;
+            if (ticket == null) {
+                System.out.print("未识别的停车单\n");
+                return null;
+            }
+            return null;
+        }
 
     
 
