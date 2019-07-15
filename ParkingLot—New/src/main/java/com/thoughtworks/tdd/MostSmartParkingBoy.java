@@ -5,9 +5,5 @@ public class MostSmartParkingBoy {
         return null;
     }
 
-    public void getParkingLots() {
-    }
-    public void getStoreCars() {
-    }
 
 }
