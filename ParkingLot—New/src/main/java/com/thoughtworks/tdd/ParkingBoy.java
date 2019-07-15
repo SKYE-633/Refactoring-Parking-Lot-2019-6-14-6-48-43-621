@@ -11,6 +11,10 @@ public class ParkingBoy {
     public ParkingBoy(ParkingLot parkingLot) {
     }
 
+    public ParkingBoy() {
+
+    }
+
     public Ticket parkCar(Car car) {
         for (ParkingLot parkingLot : parkingLots) {
             if (!parkingLot.isFull())
