@@ -2,10 +2,7 @@ package com.thoughtworks.tdd;
 
 import sun.security.krb5.internal.Ticket;
 
-public class SmartParkingBoy extends ParkingBoy  {
-    public SmartParkingBoy(ParkingLot parkingLot) {
-        super(parkingLot);
-    }
+
 
     @Override
     public Ticket parkCar(Car car) {
