@@ -43,7 +43,5 @@ public class Customer {
         return ticket;
     }
 
-    public void setTicket(Ticket ticket) {
-        this.ticket = ticket;
-    }
+    
 }
