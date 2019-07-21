@@ -10,11 +10,10 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.CoreMatchers.containsString;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SmartParkingBoyTest {
+public class MostSmartParkingBoyTest {
 
     private ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
@@ -29,17 +28,19 @@ public class SmartParkingBoyTest {
 
     @Test
     public void should_parkToDifferent_lot_when_parkCar_given_several_Car() {
-        List<ParkingLot> parkingLots = new ArrayList<>();
+        //given
         ParkingLot parkingLot1 = new ParkingLot();
         ParkingLot parkingLot2 = new ParkingLot(4);
-        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLot1,parkingLot2);
-
-        Ticket ticket1 = smartParkingBoy.parkCar(new Car());
-        Ticket ticket2 = smartParkingBoy.parkCar(new Car());
-
+        MostSmartParkingBoy mostSmartParkingBoy = new MostSmartParkingBoy(parkingLot1,parkingLot2);
+        //when
+        Ticket ticket1 = mostSmartParkingBoy.parkCar(new Car());
+        Ticket ticket2 = mostSmartParkingBoy.parkCar(new Car());
+        Ticket ticket3 = mostSmartParkingBoy.parkCar(new Car());
+        //then
         assertNotNull(ticket1);
         assertNotNull(ticket2);
-        assertThat(parkingLot1.getStoreCars().size(),is(2));
-        assertThat(parkingLot2.getStoreCars().size(),is(0));
+        assertNotNull(ticket3);
+        assertEquals(parkingLot1.getRemainder(),8);
+        assertEquals(parkingLot2.getRemainder(),3);
     }
 }

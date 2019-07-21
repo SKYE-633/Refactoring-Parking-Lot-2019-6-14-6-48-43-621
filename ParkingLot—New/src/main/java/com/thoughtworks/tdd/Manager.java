@@ -1,69 +1,67 @@
 package com.thoughtworks.tdd;
 
-import sun.security.krb5.internal.Ticket;
+import com.thoughtworks.tdd.exception.InvalidCarException;
+import com.thoughtworks.tdd.exception.InvalidTicketException;
+import com.thoughtworks.tdd.exception.NotEnoughPositionException;
 
-import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class Manager extends ParkingBoy {
+public class Manager implements Parkable {
 
-    private List<ParkingBoy> parkingBoys;
-
-    public Manager(ParkingLot parkingLot, List<ParkingBoy> parkingBoys) {
-        super(parkingLot);
-        this.parkingBoys = parkingBoys;
-    }
+    private List<Parkable> parkables;
 
     @Override
     public Ticket parkCar(Car car) {
-        final Ticket ticket = super.parkCar();
-        return ticket;
-    }
-    public Ticket parkCar(ParkingBoy parkingBoy,Car car){
+        if (car == null){
+            throw new InvalidCarException();
+        }
+        if (isFull()) {
+            throw new NotEnoughPositionException();
 
-        Ticket ticket = parkingBoy.parkCar();
-        return ticket;
-
-    }
-
-    public void manageParkingBoy(ParkingBoy parkingBoy) {
-        List<ParkingBoy> parkingBoys = null;
-        parkingBoys.add(parkingBoy);
+        }
+        return parkables.stream().filter(parkable -> !parkable.isFull()).findFirst().get().parkCar(car);
     }
 
-    public void manage(ParkingBoy parkingBoy, ParkingLot parkingLot) {
-        if (!parkingBoy.getParkingLots().contains(parkingLot))
-            parkingBoy.addParkingLot(parkingLot);
-        Rectangle parkingBoys = null;
-        if(!parkingBoys.contains(parkingBoy)) {
-            parkingBoys.add(parkingBoy);
+    @Override
+    public Car fetchCar(Ticket ticket) {
+        if (ticket == null || !containsTicket(ticket)) {
+            throw new InvalidTicketException();
+        }
+        return parkables.stream().filter(
+                parkingLot -> parkingLot.containsTicket(ticket)).findFirst().get().fetchCar(ticket);
+    }
+
+    @Override
+    public boolean containsTicket(Ticket ticket) {
+        return parkables.stream().anyMatch(parkable -> parkable.containsTicket(ticket));
+    }
+
+    @Override
+    public boolean isFull() {
+        for(Parkable parkable:parkables){
+            if(!parkable.isFull()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void manageParkingBoy(Parker parker) {
+        parkables.add(parker);
+    }
+
+    public void setManager() {
+        for (Parkable parkable : parkables) {
+            if (parkable instanceof ParkingLot)
+                ((ParkingLot) parkable).setManager(this);
         }
     }
 
-    public void addParkingLot(ParkingLot parkingLot) {
-        parkingLots.add(parkingLot);
-    }
-
-
-    public void setManager(){
-        for(ParkingLot parkingLot:parkingLots){
-            parkingLot.setManager(this);
-        }
-    }
-
-    public Manager(List<ParkingLot> parkingLots) {
-        super(parkingLots);
-        ArrayList<Object> parkingBoys = new ArrayList<>();
+    public Manager(Parkable... parkables) {
+        this.parkables = new ArrayList<>(Arrays.asList(parkables));
         setManager();
     }
-
-    public Manager(List<ParkingLot> parkingLots, List<ParkingBoy> parkingBoys) {
-        super(parkingLots);
-        this.parkingBoys = parkingBoys;
-        setManager();
-    }
-
-
-
 }
